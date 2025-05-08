@@ -25,7 +25,7 @@ exports.getComplaintStats = asyncHandler(async (req, res) => {
     status: "resolved",
   });
   const inProgressComplaints = await Complaint.countDocuments({
-    status: "in_progress",
+    status: "inprogress",
   });
 
   res.status(200).json({

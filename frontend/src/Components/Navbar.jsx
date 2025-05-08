@@ -14,18 +14,15 @@ function Navbar() {
     }
   };
 
-  // 🔐 Logout Function
   const handleLogout = async () => {
     try {
       await axios.post(
         "http://localhost:5000/api/users/logout",
         {},
-        {
-          withCredentials: true,
-        }
+        { withCredentials: true }
       );
       setUser(null);
-      navigate("/login"); // redirect to login
+      navigate("/login");
     } catch (err) {
       console.error("Logout failed", err);
       alert("Logout failed. Please try again.");
@@ -36,7 +33,7 @@ function Navbar() {
     <nav className="fixed top-0 left-0 w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white shadow-lg z-50 backdrop-blur-sm bg-opacity-90">
       <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
-          {/* Logo / Brand Name */}
+          {/* Logo / Brand */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 shadow-lg">
               <svg
@@ -66,14 +63,19 @@ function Navbar() {
               Home
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
             </Link>
-            <Link
-              to="/register"
-              onClick={handleRegisterClick}
-              className="relative group text-gray-300 hover:text-white transition-colors duration-200"
-            >
-              Register Complaint
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
-            </Link>
+
+            {/* Show only if user is not admin */}
+            {(!user || user?.role !== "admin") && (
+              <Link
+                to="/register"
+                onClick={handleRegisterClick}
+                className="relative group text-gray-300 hover:text-white transition-colors duration-200"
+              >
+                Register Complaint
+                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-500 group-hover:w-full transition-all duration-300"></span>
+              </Link>
+            )}
+
             <Link
               to="/complaints"
               className="relative group text-gray-300 hover:text-white transition-colors duration-200"
@@ -85,7 +87,7 @@ function Navbar() {
 
           {/* Auth Buttons */}
           <div className="flex items-center space-x-4">
-            {!user ? (
+            {!user && (
               <>
                 <Link
                   to="/login"
@@ -93,6 +95,7 @@ function Navbar() {
                 >
                   Login
                 </Link>
+
                 <Link
                   to="/signup"
                   className="bg-white text-gray-900 hover:bg-gray-100 px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
@@ -100,7 +103,9 @@ function Navbar() {
                   Register
                 </Link>
               </>
-            ) : (
+            )}
+
+            {user && (
               <button
                 onClick={handleLogout}
                 className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"

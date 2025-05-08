@@ -49,6 +49,7 @@ exports.updateComplaintStatusController = async (req, res) => {
 exports.getAllComplaintsController = async (req, res) => {
   try {
     const complaints = await getComplaints();
+
     res.status(200).json(complaints);
   } catch (error) {
     console.error("Error fetching complaints:", error);

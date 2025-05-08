@@ -8,14 +8,14 @@ exports.createAdminService = async (name, email, password) => {
     return { success: false, message: "User already exists" };
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const adminUser = await User.create({
+  const adminUser = new User({
     name,
     email,
-    password: hashedPassword,
-    role: "admin", // Force role to admin
+    password, // no manual hashing!
+    role: "admin",
   });
+
+  await adminUser.save(); // triggers pre('save')
 
   return { success: true, id: adminUser._id };
 };

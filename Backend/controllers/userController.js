@@ -32,6 +32,7 @@ exports.login = asyncHandler(async (req, res) => {
   console.log("Login request received:", req.body);
 
   const userData = await loginUser(email, password);
+  console.log("User data from login:", userData);
 
   if (userData) {
     console.log("User data:", userData.token);
@@ -56,8 +57,8 @@ exports.login = asyncHandler(async (req, res) => {
 });
 
 exports.logout = asyncHandler(async (req, res) => {
-  const result = await logoutUser(req); // ✅ req pass karo
-  res.clearCookie("jwt"); // ✅ Token cookie ko hata do
+  const result = await logoutUser(req);
+  res.clearCookie("jwt");
   res.json(result);
 });
 
@@ -101,3 +102,12 @@ exports.getAllComplaintsForUser = asyncHandler(async (req, res) => {
   const complaints = await Complaint.find().populate("user", "name email"); // Populate to show who filed it
   res.json(complaints);
 });
+
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password"); // Hide password
+    res.status(200).json({ success: true, users });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Server Error", error });
+  }
+};

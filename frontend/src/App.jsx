@@ -10,6 +10,7 @@ import ManageComplaints from "./Admin/ManageComplaints";
 import ManageUsers from "./Admin/ManageUsers";
 import UpdateStatus from "./Pages/UpdateStatus";
 import Footer from "./Components/Footer";
+import AdminSignup from "./Admin/AdminSignup";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/admin/complaints" element={<ManageComplaints />} />
         <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/admin/signup" element={<AdminSignup />} />
       </Routes>
       <Footer />
     </Router>
