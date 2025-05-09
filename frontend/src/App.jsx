@@ -11,6 +11,7 @@ import ManageUsers from "./Admin/ManageUsers";
 import UpdateStatus from "./Pages/UpdateStatus";
 import Footer from "./Components/Footer";
 import AdminSignup from "./Admin/AdminSignup";
+import ComplaintFilter from "./Admin/Filter";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
         <Route path="/admin/complaints" element={<ManageComplaints />} />
         <Route path="/admin/users" element={<ManageUsers />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
+        <Route path="/admin/filter" element={<ComplaintFilter />} />
       </Routes>
       <Footer />
     </Router>

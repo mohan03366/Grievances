@@ -9,12 +9,16 @@ const {
   logoutUser,
 } = require("../services/userService");
 
+const { sendWelcomeEmail } = require("../services/emailService");
+
 exports.registerUser = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
   const user = await createUser(name, email, password);
 
   if (user) {
+    await sendWelcomeEmail(user.email, user.name);
+
     res.status(201).json({
       _id: user.id,
       name: user.name,

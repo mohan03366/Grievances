@@ -17,4 +17,5 @@ router.post("/logout", protect, logout);
 router.get("/get", protect, getLoggedInUser);
 router.get("/complaints", getAllComplaintsForUser);
 router.get("/all", getAllUsers);
+
 module.exports = router;

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ManageComplaints = () => {
   const [complaints, setComplaints] = useState([]);
 
-  // Fetch complaints from backend
   const fetchComplaints = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/complaints/all");
-      setComplaints(res.data); // Make sure to access .complaints if your backend wraps it
+      const res = await axios.get("http://localhost:5000/api/complaints/all", {
+        withCredentials: true,
+      });
+      setComplaints(res.data);
     } catch (error) {
       console.error("Error fetching complaints:", error);
     }
@@ -20,10 +22,32 @@ const ManageComplaints = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-4">
-        Manage Complaints
-      </h1>
+      {/* HEADER + FILTER BUTTON */}
+      <div className="flex justify-between items-center mt-20 mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">Manage Complaints</h1>
 
+        <Link
+          to="/admin/filter"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center shadow"
+        >
+          <span>Filter</span>
+          <svg
+            className="ml-2 w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M9 5l7 7-7 7"
+            />
+          </svg>
+        </Link>
+      </div>
+
+      {/* COMPLAINTS TABLE */}
       <div className="bg-white shadow-md rounded-lg p-4 overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
@@ -38,7 +62,7 @@ const ManageComplaints = () => {
             </tr>
           </thead>
           <tbody>
-            {complaints?.map?.((complaint) => (
+            {complaints.map((complaint) => (
               <tr key={complaint._id} className="border-b">
                 <td className="p-3">{complaint.title}</td>
                 <td className="p-3">{complaint.location}</td>

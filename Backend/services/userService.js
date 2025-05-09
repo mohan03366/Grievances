@@ -8,7 +8,10 @@ const jwt = require("jsonwebtoken");
 let blacklistedTokens = [];
 
 const createUser = async (name, email, password) => {
-  // Force role to be 'user' for new registrations
+  const existing = await User.findOne({ email });
+  if (existing) {
+    throw new Error("User already registered with this email.");
+  }
   const user = await User.create({
     name,
     email,

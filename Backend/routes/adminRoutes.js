@@ -10,7 +10,6 @@ const { protect, admin } = require("../middleware/authMiddleware");
 
 router.post("/create", protect, admin, createAdmin);
 
-// Get complaint statistics
 router.get("/stats", getComplaintStats);
 
 module.exports = router;

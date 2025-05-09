@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../Context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const ComplaintsList = () => {
   const [complaints, setComplaints] = useState([]);
@@ -55,7 +55,18 @@ const ComplaintsList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Complaints List</h2>
+      {/* Heading and Filter Button */}
+      <div className="flex justify-between items-center mt-20 mb-4">
+        <h2 className="text-2xl font-bold">Complaints List</h2>
+        <Link
+          to="/admin/filter"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+        >
+          🔍 Go to Filter
+        </Link>
+      </div>
+
+      {/* Complaints Grid */}
       {complaints.length === 0 ? (
         <p>No complaints found.</p>
       ) : (
@@ -79,7 +90,6 @@ const ComplaintsList = () => {
                 Status: {complaint.status}
               </p>
 
-              {/* 🔐 Admin-only Buttons */}
               {user?.role === "admin" && (
                 <div className="flex gap-2 mt-3">
                   <button

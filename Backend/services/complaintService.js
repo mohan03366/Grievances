@@ -41,3 +41,13 @@ exports.getComplaintById = async (complaintId) => {
 exports.deleteComplaint = async (complaintId) => {
   return await Complaint.findByIdAndDelete(complaintId);
 };
+
+exports.filterComplaintsService = async ({ category, urgency, location }) => {
+  const query = {};
+
+  if (category) query.category = category;
+  if (urgency) query.urgency = urgency;
+  if (location) query.location = { $regex: location, $options: "i" };
+
+  return await Complaint.find(query).sort({ createdAt: -1 });
+};
